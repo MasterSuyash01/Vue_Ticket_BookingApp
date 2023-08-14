@@ -1,0 +1,147 @@
+openapi: 3.0.0
+info:
+  title: Show Booking and Ticket Management API
+  description: API documentation for the Show Booking and Ticket Management System
+  version: 1.0.0
+
+paths:
+  /register:
+    post:
+      summary: Register a new user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserRegistration'
+      responses:
+        '201':
+          description: User registered successfully
+      tags:
+        - Authentication
+
+  /login:
+    post:
+      summary: Log in a user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserLogin'
+      responses:
+        '200':
+          description: User logged in successfully
+        '401':
+          description: Invalid credentials
+      tags:
+        - Authentication
+
+  /shows:
+    get:
+      summary: Get all shows
+      responses:
+        '200':
+          description: List of all shows
+    post:
+      summary: Add a new show (admin only)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewShow'
+      responses:
+        '201':
+          description: Show Added!
+      tags:
+        - Show Management
+
+  /shows/{show_id}:
+    put:
+      summary: Update a show (admin only)
+      parameters:
+        - name: show_id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdatedShow'
+      responses:
+        '200':
+          description: Show Updated!
+      tags:
+        - Show Management
+
+    delete:
+      summary: Delete a show (admin only)
+      parameters:
+        - name: show_id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Show removed!
+      tags:
+        - Show Management
+
+components:
+  schemas:
+    UserRegistration:
+      type: object
+      properties:
+        name:
+          type: string
+        username:
+          type: string
+        password:
+          type: string
+        confirmPassword:
+          type: string
+
+    UserLogin:
+      type: object
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+
+    NewShow:
+      type: object
+      properties:
+        title:
+          type: string
+        genre:
+          type: string
+        date:
+          type: string
+        time:
+          type: string
+        venue:
+          type: integer
+        num_tickets:
+          type: integer
+
+    UpdatedShow:
+      type: object
+      properties:
+        title:
+          type: string
+        genre:
+          type: string
+        date:
+          type: string
+        time:
+          type: string
+        venue:
+          type: integer
+        num_tickets:
+          type: integer
